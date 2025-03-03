@@ -19,24 +19,18 @@ const TodoItem = (props: { item: Todo; key: number; onRemove: () => void }) => {
     <>
       <div key={props.key} className="flex flex-row items-center self-start text-2xl w-full">
         <Checkbox className="mx-3 size-6" id="isCompleted" onCheckedChange={() => { setIsCompleted(!isCompleted) }} />
-        {isCompleted ? (
-          <p
-            style={{
-              textDecoration: 'line-through',
-              textDecorationThickness: '3px',
-              textDecorationColor: 'black'
-            }}
-            className="m-3">
-            {props.item.text}
-          </p>
-        ) : (
-          <p className="m-3">
-            {props.item.text}
-          </p>
-        )}
+        <p
+          style={{
+            textDecoration: isCompleted ? 'line-through' : '',
+            textDecorationThickness: isCompleted ? '3px' : '',
+            textDecorationColor: isCompleted ? 'black' : ''
+          }}
+          className="m-3 w-full">
+          {props.item.text}
+        </p>
         <Button
           variant="destructive"
-          className="right-0 size-7 cursor-pointer mx-5"
+          className="size-7 cursor-pointer mx-5"
           type="button"
           onClick={props.onRemove}
         >
