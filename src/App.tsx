@@ -8,7 +8,7 @@ import { Input } from "./components/ui/input";
 
 import { Search, Minus, Check } from "lucide-react";
 
-const TodoItem = (props: { item: Todo; key: number; onRemove: () => void }) => {
+const TodoItem = (props: { item: Todo; key: number; onRemove: () => void; darkmode?: boolean }) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,8 +17,8 @@ const TodoItem = (props: { item: Todo; key: number; onRemove: () => void }) => {
 
   return (
     <>
-      <div key={props.key} className="flex flex-row items-center self-start text-2xl w-full">
-        <Checkbox className="mx-3 size-6" id="isCompleted" onCheckedChange={() => { setIsCompleted(!isCompleted) }} />
+      <div key={props.key} className="flex flex-row items-center self-start text-2xl w-full dark:bg-gray-900">
+        <Checkbox className="mx-3 size-6 dark:border-2 dark:border-white" id="isCompleted" onCheckedChange={() => { setIsCompleted(!isCompleted) }} />
         <p
           style={{
             textDecoration: isCompleted ? 'line-through' : '',
@@ -45,8 +45,8 @@ const TodoItem = (props: { item: Todo; key: number; onRemove: () => void }) => {
 const NewItem = (props: { text: string, onChange: (val: string) => void; onClick: () => void }) => {
   return (
     <>
-      <div className="flex items-center self-start w-full">
-        <Checkbox className="mx-3 size-6" id="isCompleted" checked={false} />
+      <div className="flex items-center self-start w-full dark:bg-gray-900">
+        <Checkbox className="mx-3 size-6 dark:border-2 dark:border-white" id="isCompleted" checked={false} />
         <div className="flex flex-row w-full items-center space-x-2">
           <Input
             value={props.text}
@@ -72,6 +72,15 @@ function App() {
   const [searchText, setSearchText] = useState<string>("");
   const [text, setText] = useState<string>("");
   const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    if (darkMode) {
+      document.documentElement.classList.remove('dark'); // removes 'dark' from <html>
+    } else {
+      document.documentElement.classList.add('dark'); // adds 'dark' to <html>
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
@@ -105,7 +114,7 @@ function App() {
         </div>
         {/* <SelectFilter /> */}
         <div className="dark-mode-switch">
-          <Switch id="dark-mode" onCheckedChange={setDarkMode} />
+          <Switch id="dark-mode" onCheckedChange={toggleDarkMode} />
           <Label htmlFor="dark-mode">Dark Mode</Label>
         </div>
       </div>
