@@ -119,11 +119,12 @@ function App() {
         </div>
       </div>
       <div className="main-container h-full w-[98%] m-4 flex flex-col items-center border-1 border-black">
-        {todos.map((todo, index) => {
-          return (
-            <TodoItem item={todo} key={index} onRemove={() => removeItem(index)} />
-          )
-        })}
+        {todos.filter((todo) => todo.text.toLowerCase().includes(searchText.toLocaleLowerCase()))
+          .map((todo, index) => {
+            return (
+              <TodoItem item={todo} key={index} onRemove={() => removeItem(index)} />
+            )
+          })}
         <NewItem text={text} onChange={setText} onClick={addTodo} />
       </div>
     </div>
